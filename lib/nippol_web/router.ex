@@ -16,7 +16,7 @@ defmodule NippolWeb.Router do
   scope "/", NippolWeb do
     pipe_through :browser
 
-      get "/", PageController, :index
+    get "/", PageController, :index
   end
 
   # Other scopes may use custom stacks.
