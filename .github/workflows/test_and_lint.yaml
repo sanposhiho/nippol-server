@@ -1,0 +1,32 @@
+name: test_and_lint
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths-ignore:
+    - 'docs/**'
+
+jobs:
+  test_and_lint:
+    name: Test-and-Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-elixir@v1
+        with:
+         otp-version: '23.1.1'
+         elixir-version: '1.11.1'
+      - uses: actions/cache@v1
+        with:
+         path: deps
+         key: ${{ runner.os }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+         restore-keys: |
+           ${{ runner.os }}-mix-
+      - name: set up mysql
+        run: |
+          make run-db-local
+          eval "$(cat env.local <(echo) <(declare -x))"
+          until mysql -u${DB_USER} -p${DB_PASSWORD} -h${DB_HOST} -P${DB_PORT} -e "SELECT 1"; do sleep 1; done
+      - run: mix deps.get
+      - run: mix test
+      - run: mix format --check-formatted

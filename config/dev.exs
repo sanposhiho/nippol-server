@@ -2,8 +2,8 @@ use Mix.Config
 
 # Configure your database
 config :nippol, Nippol.Repo,
-  username: "root",
-  password: "",
+  username: "app",
+  password: "Password",
   database: "nippol_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,

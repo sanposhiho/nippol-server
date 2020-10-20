@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+  nippol-mysql:
+    image: mysql:8.0
+    restart: always
+    volumes:
+      - nippol-mysql-data:/var/lib/mysql
+      - ../mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    networks:
+      - nippol-network
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+volumes:
+  nippol-mysql-data:
+networks:
+  nippol-network:
+    driver: bridge
