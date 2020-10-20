@@ -17,7 +17,7 @@ jobs:
          otp-version: '23.1.1'
          elixir-version: '1.11.1'
       - uses: actions/cache@v1
-         with:
+        with:
          path: deps
          key: ${{ runner.os }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
          restore-keys: |
